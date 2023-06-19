@@ -1,7 +1,14 @@
+using Book_Seller_Website.Data.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<BookSellerDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -20,8 +27,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapControllerRoute( // phai map truoc default route 
+    name: "Admin",
+    pattern: "{area:exists}/{controller=Categories}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
 
 app.Run();

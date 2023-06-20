@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Book_Seller_Website.Models
+namespace Book_Seller_Website.Data
 {
     public class Category
     {

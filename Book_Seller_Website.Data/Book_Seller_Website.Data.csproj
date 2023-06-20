@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Book_Seller_Website.Models\Book_Seller_Website.Models.csproj" />
+    <ProjectReference Include="..\Book_Seller_Website.Utility\Book_Seller_Website.Utility.csproj" />
   </ItemGroup>
 
 </Project>

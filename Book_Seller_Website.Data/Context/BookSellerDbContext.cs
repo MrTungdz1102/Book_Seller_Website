@@ -1,4 +1,4 @@
-﻿using Book_Seller_Website.Models;
+﻿using Book_Seller_Website.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;

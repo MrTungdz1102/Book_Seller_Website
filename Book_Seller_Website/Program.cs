@@ -1,4 +1,6 @@
 using Book_Seller_Website.Data.Context;
+using Book_Seller_Website.Models.Interface;
+using Book_Seller_Website.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+// builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

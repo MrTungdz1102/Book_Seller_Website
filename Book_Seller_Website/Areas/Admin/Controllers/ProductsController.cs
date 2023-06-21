@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Book_Seller_Website.Data;
 using Book_Seller_Website.Data.Context;
 using Book_Seller_Website.Models.Interface;
+using Book_Seller_Website.Data.ViewModel;
+using Book_Seller_Website.Models.Repository;
 
 namespace Book_Seller_Website.Areas.Admin.Controllers
 {
@@ -15,9 +17,11 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly IUnitOfWork _unit;
-        public ProductsController(IUnitOfWork unit)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductsController(IUnitOfWork unit, IWebHostEnvironment webHostEnvironment)
         {
             _unit = unit;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Admin/Products
@@ -30,14 +34,23 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
      // GET: Admin/Products/Create
         public async Task<IActionResult> UpSert(int? id)
         {
-            var product = await _unit.ProductRepository.GetAsync(c => c.Id == id);
+            ProductVM productVM = new()
+            {
+                CategoryList = _unit.CategoryRepository.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                Product = new Product()
+            };
             if (id == null || id == 0)
             {
-                return View();
+                return View(productVM);
             }
             else
             {
-                return View(product);
+                productVM.Product = await _unit.ProductRepository.GetAsync(c => c.Id == id);
+                return View(productVM);
             }
          //   ViewBag.DanhMuc = new SelectList(_context.Categories, "Id", "Name");
         }
@@ -47,16 +60,33 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ISBN,Author,ListPrice,Price,Price50,Price100")] Product product, IFormFile? formFile)
+        public async Task<IActionResult> UpSert(ProductVM productVM, IFormFile? formFile)
         {
             if (ModelState.IsValid)
             {
-                await _unit.ProductRepository.AddAsync(product);
+               
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (formFile != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName); // rename ten file 1 cach ngau nhien
+                    string productPath = Path.Combine(wwwRootPath, @"images\");
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        formFile.CopyTo(fileStream);
+                    }
+                    productVM.Product.ProductImages = @"images\" + fileName;
+                }
+
+                await _unit.ProductRepository.AddAsync(productVM.Product);
                 _unit.Save();
-                @TempData["success"] = "Product created successfully";
+                @TempData["success"] = "Product created/updated successfully";
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            else
+            {
+                TempData["error"] = string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return View(productVM);
+            }   
         }
 
         // GET: Admin/Products/Edit/5

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Book_Seller_Website.Models.Repository
 {
@@ -18,6 +19,7 @@ namespace Book_Seller_Website.Models.Repository
 		{
             _context = context;
             _dbSet = _context.Set<T>();
+            _context.Products.Include(u => u.Category);
         }
 		public async Task<T> AddAsync(T entity)
 		{
@@ -41,18 +43,31 @@ namespace Book_Seller_Website.Models.Repository
             return entity != null;
         }
 
-        public IEnumerable<T> GetAll()
-		{
+        public IEnumerable<T> GetAll(string? includeProperties = null)
+        {
             IQueryable<T> query = _dbSet;
+            // include voi nhieu dieu kien
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var item in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(item);
+                }
+            }
 			return query.ToList();
 		}
 
-        public async Task<T> GetAsync(System.Linq.Expressions.Expression<Func<T, bool>> filter)
+        public async Task<T> GetAsync(System.Linq.Expressions.Expression<Func<T, bool>> filter, string? includeProperties = null)
 		{
-            //IQueryable<T> query = _dbSet;
-            //     query = query.Where(filter);
-            //    return await query.FirstOrDefaultAsync();
-            return await _dbSet.FirstOrDefaultAsync(filter);
+            IQueryable<T> query = _dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var item in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(item);
+                }
+            }
+            return await query.FirstOrDefaultAsync(filter);
         }
 
         public void Update(T entity)

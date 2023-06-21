@@ -10,8 +10,8 @@ namespace Book_Seller_Website.Models.Interface
 	public interface IGenericRepository<T> where T : class
 	{
         // dung find chi find duoc id, nen su dung expression , string? includeProperties = null, bool tracked = false
-        IEnumerable<T> GetAll();
-		Task<T> GetAsync(Expression<Func<T, bool>> filter);
+        IEnumerable<T> GetAll(string? includeProperties = null);
+		Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null);
 		Task<T> AddAsync(T entity);
 		void Delete(T entity);
 		void Update(T entity);

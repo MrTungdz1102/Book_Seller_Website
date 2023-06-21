@@ -27,7 +27,7 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
         // GET: Admin/Products
         public IActionResult Index()
         {
-            IEnumerable<Product> result = _unit.ProductRepository.GetAll();
+            IEnumerable<Product> result = _unit.ProductRepository.GetAll(includeProperties:"Category");
             return View(result);
         }
         
@@ -70,14 +70,28 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName); // rename ten file 1 cach ngau nhien
                     string productPath = Path.Combine(wwwRootPath, @"images\");
+                    if (!string.IsNullOrEmpty(productVM.Product.ProductImages))
+                    {
+                        var oldImgPath = Path.Combine(wwwRootPath, @"images\"+productVM.Product.ProductImages);
+                        if (System.IO.File.Exists(oldImgPath))
+                        {
+                            System.IO.File.Delete(oldImgPath);                        
+                        }
+                    }
                     using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         formFile.CopyTo(fileStream);
                     }
-                    productVM.Product.ProductImages = @"images\" + fileName;
+                    productVM.Product.ProductImages = fileName;
                 }
-
-                await _unit.ProductRepository.AddAsync(productVM.Product);
+                if(productVM.Product.Id ==0)
+                {
+                    await _unit.ProductRepository.AddAsync(productVM.Product);
+                }
+                else
+                {
+                    _unit.ProductRepository.Update(productVM.Product);
+                }
                 _unit.Save();
                 @TempData["success"] = "Product created/updated successfully";
                 return RedirectToAction(nameof(Index));

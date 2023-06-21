@@ -13,11 +13,13 @@ namespace Book_Seller_Website.Data.Context
         }
         
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new Configurations.CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.ProductConfiguration());
         }
 
         public class BookSellerDbContextFactory : IDesignTimeDbContextFactory<BookSellerDbContext>

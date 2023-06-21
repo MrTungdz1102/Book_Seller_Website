@@ -9,6 +9,7 @@ namespace Book_Seller_Website.Models.Interface
     public interface IUnitOfWork
     {
         ICategoryRepository CategoryRepository { get; }
+        IProductRepository ProductRepository { get; }
         void Save();
     }
 }

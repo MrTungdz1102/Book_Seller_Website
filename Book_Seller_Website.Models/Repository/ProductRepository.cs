@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace Book_Seller_Website.Models.Repository
 {
-    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         private readonly BookSellerDbContext _context;
-        public CategoryRepository(BookSellerDbContext context) : base(context)
+        public ProductRepository(BookSellerDbContext context) : base(context)
         {
             _context = context;
         }
-
-       
     }
 }

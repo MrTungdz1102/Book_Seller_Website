@@ -103,85 +103,37 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
             }   
         }
 
-        // GET: Admin/Products/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
+      
+       
 
-        //    var product = await _unit.ProductRepository.GetAsync(c => c.Id == id);
-        //    return View(product);
-        //}
+        #region API CALLS
 
-        //// POST: Admin/Products/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ISBN,Author,ListPrice,Price,Price50,Price100")] Product product)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _unit.ProductRepository.Update(product);
-        //            _unit.Save();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!await ProductExists(product.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        @TempData["success"] = "Product edited successfully";
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(product);
-        //}
-
-        // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var product = await _unit.ProductRepository.GetAsync(c => c.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
+            List<Product> objProductList = _unit.ProductRepository.GetAll(includeProperties: "Category").ToList();
+            return Json(new { data = objProductList });
         }
 
-        // POST: Admin/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpDelete]
+        public IActionResult Delete(int? id)
         {
-            var product = await _unit.ProductRepository.GetAsync(c => c.Id == id);
-            _unit.ProductRepository.Delete(product);
+            var productToBeDeleted = _unit.ProductRepository.Get(u => u.Id == id);
+            if (productToBeDeleted == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+            var oldImgPath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\" + productToBeDeleted.ProductImages);
+            if (System.IO.File.Exists(oldImgPath))
+            {
+                System.IO.File.Delete(oldImgPath);
+            }
+            
+
+            _unit.ProductRepository.Delete(productToBeDeleted);
             _unit.Save();
-            @TempData["success"] = "Product deleted successfully";
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true, message = "Delete Successful" });
         }
-
-        private async Task<bool> ProductExists(int id)
-        {
-            return await _unit.ProductRepository.Exists(id);
-        }
+        #endregion 
     }
 }

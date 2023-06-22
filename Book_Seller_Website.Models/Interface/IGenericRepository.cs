@@ -12,7 +12,8 @@ namespace Book_Seller_Website.Models.Interface
         // dung find chi find duoc id, nen su dung expression , string? includeProperties = null, bool tracked = false
         IEnumerable<T> GetAll(string? includeProperties = null);
 		Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null);
-		Task<T> AddAsync(T entity);
+        T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
+        Task<T> AddAsync(T entity);
 		void Delete(T entity);
 		void Update(T entity);
 		void DeleteRange(IEnumerable<T> entity);

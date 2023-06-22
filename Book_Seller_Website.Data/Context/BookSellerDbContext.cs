@@ -1,11 +1,13 @@
 ﻿using Book_Seller_Website.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 namespace Book_Seller_Website.Data.Context
 {
-    public class BookSellerDbContext : DbContext
+    public class BookSellerDbContext : IdentityDbContext<IdentityUser>
     {
         public BookSellerDbContext(DbContextOptions<BookSellerDbContext> options) : base(options)
         {
@@ -14,6 +16,7 @@ namespace Book_Seller_Website.Data.Context
         
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

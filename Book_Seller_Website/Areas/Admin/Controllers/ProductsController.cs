@@ -25,7 +25,7 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
         public ProductsController(IUnitOfWork unit, IWebHostEnvironment webHostEnvironment)
         {
             _unit = unit;
-            _webHostEnvironment = webHostEnvironment;
+            _webHostEnvironment = webHostEnvironment; // lay duong dan wwwroot
         }
 
         // GET: Admin/Products

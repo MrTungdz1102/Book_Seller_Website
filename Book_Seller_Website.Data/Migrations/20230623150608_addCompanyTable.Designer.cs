@@ -4,6 +4,7 @@ using Book_Seller_Website.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Book_Seller_Website.Data.Migrations
 {
     [DbContext(typeof(BookSellerDbContext))]
-    partial class BookSellerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230623150608_addCompanyTable")]
+    partial class addCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,14 +51,14 @@ namespace Book_Seller_Website.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 6, 24, 2, 51, 35, 79, DateTimeKind.Local).AddTicks(9079),
+                            CreatedDateTime = new DateTime(2023, 6, 23, 22, 6, 8, 693, DateTimeKind.Local).AddTicks(9341),
                             DisplayOrder = 1,
                             Name = "Category 1"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 6, 24, 2, 51, 35, 79, DateTimeKind.Local).AddTicks(9080),
+                            CreatedDateTime = new DateTime(2023, 6, 23, 22, 6, 8, 693, DateTimeKind.Local).AddTicks(9342),
                             DisplayOrder = 2,
                             Name = "Category 2"
                         });
@@ -442,9 +445,6 @@ namespace Book_Seller_Website.Data.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -457,8 +457,6 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -523,15 +521,6 @@ namespace Book_Seller_Website.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Book_Seller_Website.Data.User", b =>
-                {
-                    b.HasOne("Book_Seller_Website.Data.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }

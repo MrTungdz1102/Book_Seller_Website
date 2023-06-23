@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Book_Seller_Website.Data;
+using Book_Seller_Website.Models.Interface;
 using Book_Seller_Website.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,7 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
+        private readonly IUnitOfWork _unit;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
@@ -36,13 +38,15 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            RoleManager<IdentityRole> roleManager,
+			IUnitOfWork unit,
+			RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _unit = unit;
             _roleManager = roleManager;
             _userManager = userManager;
             _userStore = userStore;
@@ -117,7 +121,9 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
             public string? PostalCode { get; set; }
             public string? PhoneNumber { get; set; }
             public int? CompanyId { get; set; }
-        }
+			[ValidateNever]
+			public IEnumerable<SelectListItem> CompanyList { get; set; }
+		}
 
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -137,8 +143,13 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
                 {
                     Text = i,
                     Value = i
-                })
-            };
+                }),
+				CompanyList = _unit.CompanyRepository.GetAll().Select(i => new SelectListItem
+				{
+					Text = i.Name,
+					Value = i.Id.ToString()
+				})
+			};
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -159,7 +170,11 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
                 user.State = Input.State;
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
-                var result = await _userManager.CreateAsync(user, Input.Password);
+				if (Input.Roles == SD.Role_Company)
+				{
+					user.CompanyId = Input.CompanyId;
+				}
+				var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {

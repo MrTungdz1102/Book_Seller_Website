@@ -10,10 +10,14 @@ using Book_Seller_Website.Data.Context;
 using Book_Seller_Website.Models.Interface;
 using Book_Seller_Website.Data.ViewModel;
 using Book_Seller_Website.Models.Repository;
+using Book_Seller_Website.Utility;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Book_Seller_Website.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductsController : Controller
     {
         private readonly IUnitOfWork _unit;

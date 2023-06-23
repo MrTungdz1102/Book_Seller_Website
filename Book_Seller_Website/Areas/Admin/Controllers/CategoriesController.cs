@@ -4,10 +4,13 @@ using Book_Seller_Website.Data.Context;
 using Book_Seller_Website.Data;
 using Book_Seller_Website.Models.Interface;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using Book_Seller_Website.Utility;
 
 namespace Book_Seller_Website.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoriesController : Controller
     {
         private readonly IUnitOfWork _unit;

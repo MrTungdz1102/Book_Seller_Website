@@ -38,7 +38,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 5,
+                    CategoryId = 1,
                     ProductImages = ""
                 },
                 new Product
@@ -52,7 +52,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    CategoryId = 4,
+                    CategoryId = 2,
                     ProductImages = ""
                 },
                 new Product
@@ -80,7 +80,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 27,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 4,
+                    CategoryId = 2,
                     ProductImages = ""
                 },
                 new Product
@@ -94,7 +94,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    CategoryId = 5,
+                    CategoryId = 2,
                     ProductImages = ""
                 } 
               );

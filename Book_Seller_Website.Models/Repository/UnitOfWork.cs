@@ -14,12 +14,16 @@ namespace Book_Seller_Website.Models.Repository
         public ICategoryRepository CategoryRepository { get; private set; }
         public IProductRepository ProductRepository { get; private set; }
         public ICompanyRepository CompanyRepository { get; private set; }
+        public IShopingCartRepository ShopingCartRepository { get; private set; }
+        public IUserRepository UserRepository { get; private set; }
         public UnitOfWork(BookSellerDbContext context)
         {
             _context = context;
             CategoryRepository = new CategoryRepository(_context);
             ProductRepository = new ProductRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
+            ShopingCartRepository = new ShopingCartRepository(_context);
+            UserRepository = new UserRepository(_context);
         }
         public void Save()
         {

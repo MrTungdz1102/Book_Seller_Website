@@ -30,7 +30,6 @@ namespace Book_Seller_Website.Data
         [Range(1, 1000)]
         public double Price { get; set; }
 
-
         [Required]
         [Display(Name = "Price for 50+")]
         [Range(1, 1000)]

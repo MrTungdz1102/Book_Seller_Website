@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Book_Seller_Website.Data.Migrations
 {
     [DbContext(typeof(BookSellerDbContext))]
-    [Migration("20230623150608_addCompanyTable")]
-    partial class addCompanyTable
+    [Migration("20230625124316_refreshdb")]
+    partial class refreshdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.7")
+                .HasAnnotation("ProductVersion", "7.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -51,14 +51,14 @@ namespace Book_Seller_Website.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 6, 23, 22, 6, 8, 693, DateTimeKind.Local).AddTicks(9341),
+                            CreatedDateTime = new DateTime(2023, 6, 25, 19, 43, 16, 134, DateTimeKind.Local).AddTicks(5335),
                             DisplayOrder = 1,
                             Name = "Category 1"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 6, 23, 22, 6, 8, 693, DateTimeKind.Local).AddTicks(9342),
+                            CreatedDateTime = new DateTime(2023, 6, 25, 19, 43, 16, 134, DateTimeKind.Local).AddTicks(5337),
                             DisplayOrder = 2,
                             Name = "Category 2"
                         });
@@ -144,92 +144,33 @@ namespace Book_Seller_Website.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Billy Spark",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SWD9999001",
-                            ListPrice = 99.0,
-                            Price = 90.0,
-                            Price100 = 80.0,
-                            Price50 = 85.0,
-                            ProductImages = "",
-                            Title = "Fortune of Time"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Nancy Hoover",
-                            CategoryId = 5,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "CAW777777701",
-                            ListPrice = 40.0,
-                            Price = 30.0,
-                            Price100 = 20.0,
-                            Price50 = 25.0,
-                            ProductImages = "",
-                            Title = "Dark Skies"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Julian Button",
-                            CategoryId = 4,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "RITO5555501",
-                            ListPrice = 55.0,
-                            Price = 50.0,
-                            Price100 = 35.0,
-                            Price50 = 40.0,
-                            ProductImages = "",
-                            Title = "Vanish in the Sunset"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "Abby Muscles",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "WS3333333301",
-                            ListPrice = 70.0,
-                            Price = 65.0,
-                            Price100 = 55.0,
-                            Price50 = 60.0,
-                            ProductImages = "",
-                            Title = "Cotton Candy"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Author = "Ron Parker",
-                            CategoryId = 4,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SOTJ1111111101",
-                            ListPrice = 30.0,
-                            Price = 27.0,
-                            Price100 = 20.0,
-                            Price50 = 25.0,
-                            ProductImages = "",
-                            Title = "Rock in the Ocean"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Author = "Laura Phantom",
-                            CategoryId = 5,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "FOT000000001",
-                            ListPrice = 25.0,
-                            Price = 23.0,
-                            Price100 = 20.0,
-                            Price50 = 22.0,
-                            ProductImages = "",
-                            Title = "Leaves and Wonders"
-                        });
+            modelBuilder.Entity("Book_Seller_Website.Data.ShopingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Userid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("Userid");
+
+                    b.ToTable("ShopingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -445,6 +386,9 @@ namespace Book_Seller_Website.Data.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -458,6 +402,8 @@ namespace Book_Seller_Website.Data.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasDiscriminator().HasValue("User");
                 });
 
@@ -470,6 +416,25 @@ namespace Book_Seller_Website.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Book_Seller_Website.Data.ShopingCart", b =>
+                {
+                    b.HasOne("Book_Seller_Website.Data.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Book_Seller_Website.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -521,6 +486,15 @@ namespace Book_Seller_Website.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Book_Seller_Website.Data.User", b =>
+                {
+                    b.HasOne("Book_Seller_Website.Data.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
+
+                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }

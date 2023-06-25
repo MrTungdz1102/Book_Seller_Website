@@ -17,7 +17,7 @@ namespace Book_Seller_Website.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.7")
+                .HasAnnotation("ProductVersion", "7.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -42,20 +42,20 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 6, 24, 2, 51, 35, 79, DateTimeKind.Local).AddTicks(9079),
+                            CreatedDateTime = new DateTime(2023, 6, 25, 19, 45, 49, 664, DateTimeKind.Local).AddTicks(1784),
                             DisplayOrder = 1,
                             Name = "Category 1"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 6, 24, 2, 51, 35, 79, DateTimeKind.Local).AddTicks(9080),
+                            CreatedDateTime = new DateTime(2023, 6, 25, 19, 45, 49, 664, DateTimeKind.Local).AddTicks(1785),
                             DisplayOrder = 2,
                             Name = "Category 2"
                         });
@@ -90,7 +90,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("Book_Seller_Website.Data.Product", b =>
@@ -140,7 +140,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasData(
                         new
@@ -161,7 +161,7 @@ namespace Book_Seller_Website.Data.Migrations
                         {
                             Id = 2,
                             Author = "Nancy Hoover",
-                            CategoryId = 5,
+                            CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "CAW777777701",
                             ListPrice = 40.0,
@@ -175,7 +175,7 @@ namespace Book_Seller_Website.Data.Migrations
                         {
                             Id = 3,
                             Author = "Julian Button",
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "RITO5555501",
                             ListPrice = 55.0,
@@ -203,7 +203,7 @@ namespace Book_Seller_Website.Data.Migrations
                         {
                             Id = 5,
                             Author = "Ron Parker",
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SOTJ1111111101",
                             ListPrice = 30.0,
@@ -217,7 +217,7 @@ namespace Book_Seller_Website.Data.Migrations
                         {
                             Id = 6,
                             Author = "Laura Phantom",
-                            CategoryId = 5,
+                            CategoryId = 2,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "FOT000000001",
                             ListPrice = 25.0,
@@ -227,6 +227,33 @@ namespace Book_Seller_Website.Data.Migrations
                             ProductImages = "",
                             Title = "Leaves and Wonders"
                         });
+                });
+
+            modelBuilder.Entity("Book_Seller_Website.Data.ShopingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Userid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("Userid");
+
+                    b.ToTable("ShopingCarts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -472,6 +499,25 @@ namespace Book_Seller_Website.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Book_Seller_Website.Data.ShopingCart", b =>
+                {
+                    b.HasOne("Book_Seller_Website.Data.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Book_Seller_Website.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

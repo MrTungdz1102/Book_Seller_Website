@@ -11,6 +11,8 @@ namespace Book_Seller_Website.Models.Interface
         ICategoryRepository CategoryRepository { get; }
         IProductRepository ProductRepository { get; }
         ICompanyRepository CompanyRepository { get; }
+        IShopingCartRepository ShopingCartRepository { get; }
+        IUserRepository UserRepository { get; }
         void Save();
     }
 }

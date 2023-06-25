@@ -9,25 +9,23 @@ using System.Threading.Tasks;
 
 namespace Book_Seller_Website.Data
 {
-    public class ShopingCart
+    public class OrderDetail
     {
-        [Key]
         public int Id { get; set; }
+        [Required]
+        public int OrderHeaderId { get; set; }
+        [ForeignKey("OrderHeaderId")]
+        [ValidateNever]
+        public OrderHeader OrderHeader { get; set; }
 
+
+        [Required]
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         [ValidateNever]
-        public Product? Product { get; set; }
-        [Range(1, 1000, ErrorMessage = "Please enter a value between 1 and 1000")]
+        public Product Product { get; set; }
+
         public int Count { get; set; }
-
-        
-        public string Userid { get; set; }
-        [ForeignKey("Userid")]
-        [ValidateNever]
-        public virtual User? User { get; set; }
-
-        [NotMapped] // khong luu vao database
-        public double Price { get; set; }
+        public double Price { get; set; } // gia o day se khong bao gio thay doi, con gia o shoppingcart co the  thay doi
     }
 }

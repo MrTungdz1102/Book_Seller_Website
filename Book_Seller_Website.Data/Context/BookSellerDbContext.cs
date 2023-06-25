@@ -19,6 +19,8 @@ namespace Book_Seller_Website.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ShopingCart> ShopingCarts { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

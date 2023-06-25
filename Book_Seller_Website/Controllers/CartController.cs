@@ -21,12 +21,13 @@ namespace Book_Seller_Website.Controllers
             string userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             CartVM result = new()
             {
-                ListCart = _unit.ShopingCartRepository.GetAll(u => u.Userid == userId, includeProperties: "Product")
+                ListCart = _unit.ShopingCartRepository.GetAll(u => u.Userid == userId, includeProperties: "Product"),
+                OrderHeader = new OrderHeader()
             };
             foreach (var item in result.ListCart)
             {
                 item.Price = GetPriceBasedOnQuantity(item);
-                result.GrandTotal += item.Price * item.Count;
+                result.OrderHeader.OrderTotal += item.Price * item.Count;
             }
             return View(result);
         }
@@ -52,7 +53,29 @@ namespace Book_Seller_Website.Controllers
 
         public IActionResult Summary()
         {
-            return View();
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            string userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            CartVM result = new()
+            {
+                ListCart = _unit.ShopingCartRepository.GetAll(u => u.Userid == userId, includeProperties: "Product"),
+                OrderHeader = new OrderHeader()
+            };
+            result.OrderHeader.User = _unit.UserRepository.Get(x => x.Id == userId);
+
+            result.OrderHeader.Name = result.OrderHeader.User.Name;
+            result.OrderHeader.PhoneNumber = result.OrderHeader.User.PhoneNumber;
+            result.OrderHeader.StreetAddress = result.OrderHeader.User.StreetAddress;
+            result.OrderHeader.City = result.OrderHeader.User.City;
+            result.OrderHeader.State = result.OrderHeader.User.State;
+            result.OrderHeader.PostalCode = result.OrderHeader.User.PostalCode;
+
+
+            foreach (var item in result.ListCart)
+            {
+                item.Price = GetPriceBasedOnQuantity(item);
+                result.OrderHeader.OrderTotal += item.Price * item.Count;
+            }
+            return View(result);
         }
         
         public IActionResult Plus(int id)

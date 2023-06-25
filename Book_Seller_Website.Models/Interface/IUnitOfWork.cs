@@ -13,6 +13,8 @@ namespace Book_Seller_Website.Models.Interface
         ICompanyRepository CompanyRepository { get; }
         IShopingCartRepository ShopingCartRepository { get; }
         IUserRepository UserRepository { get; }
+        IOrderDetailRepository OrderDetailRepository { get; }
+        IOrderHeaderRepository OrderHeaderRepository { get; }
         void Save();
     }
 }

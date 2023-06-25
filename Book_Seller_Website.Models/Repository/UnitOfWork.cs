@@ -16,6 +16,8 @@ namespace Book_Seller_Website.Models.Repository
         public ICompanyRepository CompanyRepository { get; private set; }
         public IShopingCartRepository ShopingCartRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
+        public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
+        public IOrderDetailRepository OrderDetailRepository { get; private set; }
         public UnitOfWork(BookSellerDbContext context)
         {
             _context = context;
@@ -24,6 +26,8 @@ namespace Book_Seller_Website.Models.Repository
             CompanyRepository = new CompanyRepository(_context);
             ShopingCartRepository = new ShopingCartRepository(_context);
             UserRepository = new UserRepository(_context);
+            OrderDetailRepository = new OrderDetailRepository(_context);
+            OrderHeaderRepository = new OrderHeaderRepository(_context);
         }
         public void Save()
         {

@@ -15,7 +15,8 @@ namespace Book_Seller_Website.Models.Repository
 			_context = context;
 			_dbSet = _context.Set<T>();
 			_context.Products.Include(u => u.Category);
-		}
+            _context.ShopingCarts.Include(u => u.Product);
+        }
 		public async Task<T> AddAsync(T entity)
 		{
 			await _context.AddAsync(entity);
@@ -63,9 +64,13 @@ namespace Book_Seller_Website.Models.Repository
 			return query.SingleOrDefault(filter);
 		}
 
-		public IEnumerable<T> GetAll(string? includeProperties = null)
+		public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null, string? includeProperties = null)
 		{
 			IQueryable<T> query = _dbSet;
+            if(filter != null)
+			{
+				query = query.Where(filter);
+			}
 			// include voi nhieu dieu kien
 			if (!string.IsNullOrEmpty(includeProperties))
 			{
@@ -94,5 +99,6 @@ namespace Book_Seller_Website.Models.Repository
 		{
 			_dbSet.Update(entity);
 		}
-	}
+       
+    }
 }

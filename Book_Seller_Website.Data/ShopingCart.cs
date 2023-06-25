@@ -27,7 +27,7 @@ namespace Book_Seller_Website.Data
         [ValidateNever]
         public virtual User? User { get; set; }
 
-        //[NotMapped]
-        //public double Price { get; set; }
+        [NotMapped]
+        public double Price { get; set; }
     }
 }

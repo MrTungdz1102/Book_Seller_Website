@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Book_Seller_Website.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 // AddIdentity<IdentityUser, IdentityRole> hoac .AddIdentityCore<ApiUser>().AddRoles<IdentityRole>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<BookSellerDbContext>().AddDefaultTokenProviders();
 builder.Services.AddRazorPages();
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 // override default access deny url, must add after addidentity
 builder.Services.ConfigureApplicationCookie(options => {
@@ -46,6 +49,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 app.MapRazorPages(); // identity razor page
 

@@ -16,7 +16,8 @@ namespace Book_Seller_Website.Models.Repository
 			_dbSet = _context.Set<T>();
 			_context.Products.Include(u => u.Category);
             _context.ShopingCarts.Include(u => u.Product);
-        }
+			_context.OrderHeaders.Include(u => u.User);
+		}
 		public async Task<T> AddAsync(T entity)
 		{
 			await _context.AddAsync(entity);

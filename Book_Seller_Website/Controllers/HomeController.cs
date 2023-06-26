@@ -51,7 +51,8 @@ namespace Book_Seller_Website.Controllers
 			}
 			else
 			{
-				shopingCart.Id = 0; // deo hieu tai sao lai phai set = 0 trong khi id tu dong tang
+				shopingCart.Id = 0;
+                // id khong the them thu cong ma no se them tu dong, khong hieu sao truong hop nay id lai = 1,2,3... trong khi mac dinh phai la 0
                 _unit.ShopingCartRepository.Add(shopingCart);
 				_unit.Save();
 				TempData["success"] = "add thanh cong";

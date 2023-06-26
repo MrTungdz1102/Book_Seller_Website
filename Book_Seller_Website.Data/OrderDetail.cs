@@ -11,6 +11,7 @@ namespace Book_Seller_Website.Data
 {
     public class OrderDetail
     {
+		// chi tiet don hang
         public int Id { get; set; }
         [Required]
         public int OrderHeaderId { get; set; }

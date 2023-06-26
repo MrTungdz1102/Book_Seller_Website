@@ -42,7 +42,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -90,7 +90,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("Book_Seller_Website.Data.OrderDetail", b =>
@@ -119,7 +119,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Book_Seller_Website.Data.OrderHeader", b =>
@@ -195,7 +195,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrderHeaders");
+                    b.ToTable("OrderHeaders", (string)null);
                 });
 
             modelBuilder.Entity("Book_Seller_Website.Data.Product", b =>
@@ -245,7 +245,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasData(
                         new
@@ -358,7 +358,7 @@ namespace Book_Seller_Website.Data.Migrations
 
                     b.HasIndex("Userid");
 
-                    b.ToTable("ShopingCarts");
+                    b.ToTable("ShopingCarts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

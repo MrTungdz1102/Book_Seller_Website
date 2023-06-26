@@ -162,6 +162,7 @@ namespace Book_Seller_Website.Controllers
 
 				var service = new SessionService();
 				Session session = service.Create(options);
+				// downgrade stripe package version below 39.199 to add payment intent
 				_unit.OrderHeaderRepository.UpdateStripePaymentID(CartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
 				_unit.Save();
 				Response.Headers.Add("Location", session.Url);

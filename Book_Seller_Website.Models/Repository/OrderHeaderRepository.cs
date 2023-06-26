@@ -34,7 +34,7 @@ namespace Book_Seller_Website.Models.Repository
 		public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
 		{
 			var orderFromDb = _context.OrderHeaders.FirstOrDefault(o => o.Id == id);
-			if(string.IsNullOrEmpty(sessionId))
+			if(!string.IsNullOrEmpty(sessionId))
 			{
 				orderFromDb.SessionId = sessionId;
 			}

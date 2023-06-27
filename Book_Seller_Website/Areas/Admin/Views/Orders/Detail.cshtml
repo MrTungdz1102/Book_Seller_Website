@@ -217,7 +217,7 @@ else
                                   @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded &&
                                Model.OrderHeader.OrderStatus != SD.StatusCancelled &&
                                Model.OrderHeader.OrderStatus != SD.StatusShipped) {
-                                <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Order" />
+                                    <input asp-action="CancelOrder" asp-controller="Orders" asp-area="Admin" type="submit" class="btn btn-danger form-control my-1" value="Cancel Order" />
                                }
                             }
                         </div>

@@ -89,7 +89,31 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
             return RedirectToAction(nameof(Detail), new { orderId = orderDetailVM.OrderHeader.Id });
         }
 
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult CancelOrder(OrderDetailVM orderDetailVM)
+		{
+            var orderHeader = _unit.OrderHeaderRepository.Get(x => x.Id == orderDetailVM.OrderHeader.Id, includeProperties: "User");
+            if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Reason = RefundReasons.RequestedByCustomer,
+                    PaymentIntent = orderHeader.PaymentIntentId
+                };
+                var service = new RefundService();
+                Refund refund = service.Create(options);
 
+                _unit.OrderHeaderRepository.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusRefunded);
+            }
+            else
+            {
+                _unit.OrderHeaderRepository.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusCancelled);
+            }
+            _unit.Save();
+            TempData["Success"] = "Order Cancelled Successfully.";
+            return RedirectToAction(nameof(Detail), new { orderId = orderDetailVM.OrderHeader.Id });
+        }
 
 
         #region API CALLS

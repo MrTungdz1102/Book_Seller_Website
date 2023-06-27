@@ -202,7 +202,7 @@ else
                                 </li>
                             </ul>
                              @if(Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment && Model.OrderHeader.OrderStatus == SD.StatusShipped) {
-                                <input type="submit" class="btn btn-success form-control my-1" value="Pay Now" />
+                                <input asp-action="PayNow" asp-controller="Orders" asp-area="Admin" type="submit" class="btn btn-success form-control my-1" value="Pay Now" />
                              }
                             @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                             {

@@ -17,7 +17,7 @@ using System.Data;
 namespace Book_Seller_Website.Areas.Admin.Controllers
 {
     [Area("Admin")]
-  //  [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CompaniesController : Controller
     {
         private readonly IUnitOfWork _unit;

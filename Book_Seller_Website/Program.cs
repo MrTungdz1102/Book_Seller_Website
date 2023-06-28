@@ -33,6 +33,11 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true;
 }); // add session khi dung stripe
 
+builder.Services.AddAuthentication().AddFacebook(option => {
+    option.AppId = "969194751063538";
+    option.AppSecret = "0259f06f119a16850f14adea924cf1cd";
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();

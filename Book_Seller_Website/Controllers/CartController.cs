@@ -4,6 +4,7 @@ using Book_Seller_Website.Models.Interface;
 using Book_Seller_Website.Models.Repository;
 using Book_Seller_Website.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
@@ -16,10 +17,13 @@ namespace Book_Seller_Website.Controllers
 		[BindProperty]
 		public CartVM CartVM { get; set; }
 		private readonly IUnitOfWork _unit;
-		public CartController(IUnitOfWork unit)
+        private readonly IEmailSender _emailSender;
+        public CartController(IUnitOfWork unit, IEmailSender emailSender)
 		{
 			_unit = unit;
-		}
+			_emailSender = emailSender;
+
+        }
 		public IActionResult Index()
 		{
 			var claimIdentity = (ClaimsIdentity)User.Identity;
@@ -191,7 +195,8 @@ namespace Book_Seller_Website.Controllers
 				}
 				HttpContext.Session.Clear();
 			}
-			List<ShopingCart> shoppingCarts = _unit.ShopingCartRepository
+            _emailSender.SendEmailAsync(orderHeader.User.Email, "Order Created " + orderHeader.Id.ToString(), "Order has been submitted successfully");
+            List<ShopingCart> shoppingCarts = _unit.ShopingCartRepository
 			   .GetAll(u => u.Userid == orderHeader.UserId).ToList();
 			_unit.ShopingCartRepository.DeleteRange(shoppingCarts);
 			_unit.Save();

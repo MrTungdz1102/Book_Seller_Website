@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Book_Seller_Website.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using Book_Seller_Website.Models.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 // builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 var app = builder.Build();
 
@@ -65,6 +67,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+SeedDatabase();
+
 app.UseSession(); // add session khi dung stripe
 
 app.MapRazorPages(); // identity razor page
@@ -80,3 +84,12 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

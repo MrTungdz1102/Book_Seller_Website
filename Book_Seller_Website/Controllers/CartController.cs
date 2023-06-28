@@ -203,7 +203,7 @@ namespace Book_Seller_Website.Controllers
 			result.Count += 1;
 			_unit.ShopingCartRepository.Update(result);
 			_unit.Save();
-			return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
 		}
 
 		public IActionResult Minus(int id)
@@ -211,8 +211,11 @@ namespace Book_Seller_Website.Controllers
 			var result = _unit.ShopingCartRepository.Get(x => x.Id == id);
 			if (result.Count <= 1)
 			{
-				_unit.ShopingCartRepository.Delete(result);
-			}
+               
+                _unit.ShopingCartRepository.Delete(result);
+                // neu dat httpcontext len truoc dong xoa thi phai tracking entity bang cach set track = true
+                HttpContext.Session.SetInt32(SD.SessionCart, (_unit.ShopingCartRepository.GetAll(x => x.Userid == result.Userid)).Count() - 1);
+            }
 			else
 			{
 				result.Count -= 1;
@@ -229,7 +232,8 @@ namespace Book_Seller_Website.Controllers
 			{
 				_unit.ShopingCartRepository.Delete(result);
 			}
-			_unit.Save();
+            HttpContext.Session.SetInt32(SD.SessionCart, (_unit.ShopingCartRepository.GetAll(x => x.Userid == result.Userid)).Count()-1);
+            _unit.Save();
 			return RedirectToAction(nameof(Index));
 		}
 	}

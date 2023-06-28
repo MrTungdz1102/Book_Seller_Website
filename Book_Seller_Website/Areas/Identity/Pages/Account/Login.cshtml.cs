@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Book_Seller_Website.Models.Interface;
+using Book_Seller_Website.Data;
+using Book_Seller_Website.Utility;
+using System.Security.Claims;
 
 namespace Book_Seller_Website.Areas.Identity.Pages.Account
 {
@@ -21,11 +25,12 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        private readonly IUnitOfWork _unit; 
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, IUnitOfWork unit)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _unit = unit;
         }
 
         /// <summary>
@@ -132,7 +137,7 @@ namespace Book_Seller_Website.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
-
+            
             // If we got this far, something failed, redisplay form
             return Page();
         }

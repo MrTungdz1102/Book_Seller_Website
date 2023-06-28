@@ -115,6 +115,7 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
             TempData["Success"] = "Order Cancelled Successfully.";
             return RedirectToAction(nameof(Detail), new { orderId = orderDetailVM.OrderHeader.Id });
         }
+        
         [HttpPost]
         public IActionResult PayNow(OrderDetailVM orderDetailVM)
         {

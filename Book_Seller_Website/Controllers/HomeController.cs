@@ -1,6 +1,8 @@
 ﻿using Book_Seller_Website.Data;
 using Book_Seller_Website.Models.Interface;
+using Book_Seller_Website.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -19,7 +21,13 @@ namespace Book_Seller_Website.Controllers
 
 		public IActionResult Index()
 		{
-			IEnumerable<Product> result = _unit.ProductRepository.GetAll(includeProperties: "Category");
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(userId != null)
+			{
+                HttpContext.Session.SetInt32(SD.SessionCart, (_unit.ShopingCartRepository.GetAll(x => x.Userid == userId.Value)).Count());
+            }
+            IEnumerable<Product> result = _unit.ProductRepository.GetAll(includeProperties: "Category");
 			return View(result);
 		}
 
@@ -46,17 +54,19 @@ namespace Book_Seller_Website.Controllers
 			{
 				cart.Count += shopingCart.Count;
 				_unit.ShopingCartRepository.Update(cart);
-				_unit.Save();
 				TempData["success"] = "update thanh cong";
-			}
+                _unit.Save();
+            }
 			else
 			{
 				shopingCart.Id = 0;
                 // id khong the them thu cong ma no se them tu dong, khong hieu sao truong hop nay id lai = 1,2,3... trong khi mac dinh phai la 0
                 _unit.ShopingCartRepository.Add(shopingCart);
-				_unit.Save();
-				TempData["success"] = "add thanh cong";
+                _unit.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, (_unit.ShopingCartRepository.GetAll(x => x.Userid == userId)).Count());
+                TempData["success"] = "add thanh cong";
 			}
+           
             return RedirectToAction(nameof(Index));
         }
 

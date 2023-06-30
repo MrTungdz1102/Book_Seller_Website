@@ -46,6 +46,6 @@ namespace Book_Seller_Website.Data
         public Category Category { get; set; }
         //phai co validatenever neu khong se loi
         [ValidateNever] //List<ProductImage>
-        public string ProductImages { get; set; }
+        public string? ProductImages { get; set; }
     }
 }

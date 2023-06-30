@@ -42,18 +42,26 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
             }
 			return Json(new { data = objList });
 		}
-
-		[HttpDelete]
-		public IActionResult Delete(string? id)
+        
+		[HttpPost]
+		public IActionResult LockUnlock([FromBody]string id)
 		{
-			var productToBeDeleted = _unit.UserRepository.Get(u => u.Id == id);
-			if (productToBeDeleted == null)
+			var user = _unit.UserRepository.Get(u => u.Id == id);
+			if (user == null)
 			{
-				return Json(new { success = false, message = "Error while deleting" });
+				return Json(new { success = false, message = "Error while locking/unlocking" });
 			}
-			_unit.UserRepository.Delete(productToBeDeleted);
+            if(user.LockoutEnd!= null&& user.LockoutEnd>DateTime.Now)
+			{
+				user.LockoutEnd = DateTime.Now;
+			}
+            else
+			{
+				user.LockoutEnd = DateTime.Now.AddYears(100);
+			}
+			_unit.UserRepository.Update(user); 
 			_unit.Save();
-			return Json(new { success = true, message = "Delete Successful" });
+			return Json(new { success = true, message = "Lock/Unlock Successful" });
 		}
 		#endregion
 	}

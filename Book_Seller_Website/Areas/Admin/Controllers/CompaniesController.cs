@@ -29,8 +29,9 @@ namespace Book_Seller_Website.Areas.Admin.Controllers
         // GET: Admin/Companies
         public IActionResult Index()
         {
-            IEnumerable<Company> result = _unit.CompanyRepository.GetAll();
-            return View(result);
+            // dung datatable thi khong can
+          //  IEnumerable<Company> result = _unit.CompanyRepository.GetAll();
+            return View();
         }
         
      // GET: Admin/Companies/Create

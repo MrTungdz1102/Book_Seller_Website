@@ -22,5 +22,7 @@ namespace Book_Seller_Website.Data
 		[ForeignKey("CompanyId")]
 		[ValidateNever]
 		public Company? Company { get; set; }
-	}
+        [NotMapped]
+        public string Role { get; set; }
+    }
 }

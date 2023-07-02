@@ -21,13 +21,13 @@ namespace Book_Seller_Website.Controllers
 
 		public IActionResult Index()
 		{
-            var claimIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            if(userId != null)
-			{
-                HttpContext.Session.SetInt32(SD.SessionCart, (_unit.ShopingCartRepository.GetAll(x => x.Userid == userId.Value)).Count());
-            }
-            IEnumerable<Product> result = _unit.ProductRepository.GetAll(includeProperties: "Category");
+   //         var claimIdentity = (ClaimsIdentity)User.Identity;
+   //         var userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+   //         if(userId != null)
+			//{
+   //             HttpContext.Session.SetInt32(SD.SessionCart, (_unit.ShopingCartRepository.GetAll(x => x.Userid == userId.Value)).Count());
+   //         }
+            IEnumerable<Product> result = _unit.ProductRepository.GetAll(includeProperties: "Category,ProductImages");
 			return View(result);
 		}
 
@@ -35,7 +35,8 @@ namespace Book_Seller_Website.Controllers
 		{
 			ShopingCart result = new ShopingCart()
 			{
-				Product = _unit.ProductRepository.Get(u => u.Id == id, includeProperties: "Category"),
+				// khong su dung dau cach khi include
+				Product = _unit.ProductRepository.Get(u => u.Id == id, includeProperties: "Category,ProductImages"),
 				Count = 1,
 				ProductId = id
 			};

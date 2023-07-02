@@ -30,11 +30,16 @@ namespace Book_Seller_Website.Controllers
 			string userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 			CartVM result = new()
 			{
+				// co the include them productimage vao day tuy nhien EF se tracking ca nhung entities duoc include
 				ListCart = _unit.ShopingCartRepository.GetAll(u => u.Userid == userId, includeProperties: "Product"),
 				OrderHeader = new OrderHeader()
 			};
-			foreach (var item in result.ListCart)
+            // lay image theo cach thu cong khong su dung include
+            var productImages = _unit.ProductImageRepository.GetAll();
+
+            foreach (var item in result.ListCart)
 			{
+				item.Product.ProductImages = productImages.Where(x => x.ProductId == item.ProductId).ToList();
 				item.Price = GetPriceBasedOnQuantity(item);
 				result.OrderHeader.OrderTotal += item.Price * item.Count;
 			}

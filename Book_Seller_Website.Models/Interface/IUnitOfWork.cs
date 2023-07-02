@@ -15,6 +15,7 @@ namespace Book_Seller_Website.Models.Interface
         IUserRepository UserRepository { get; }
         IOrderDetailRepository OrderDetailRepository { get; }
         IOrderHeaderRepository OrderHeaderRepository { get; }
-        void Save();
+		IProductImageRepository ProductImageRepository { get; }
+		void Save();
     }
 }

@@ -21,8 +21,9 @@ namespace Book_Seller_Website.Data.Context
         public DbSet<ShopingCart> ShopingCarts { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
+		public DbSet<ProductImage> ProductImages { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new Configurations.CategoryConfiguration());

@@ -44,8 +44,8 @@ namespace Book_Seller_Website.Data
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
-        //phai co validatenever neu khong se loi
-        [ValidateNever] //List<ProductImage>
-        public string? ProductImages { get; set; }
-    }
+		//phai co validatenever neu khong se loi
+		[ValidateNever] 
+		public List<ProductImage> ProductImages { get; set; }
+	}
 }

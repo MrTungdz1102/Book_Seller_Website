@@ -18,7 +18,8 @@ namespace Book_Seller_Website.Models.Repository
         public IUserRepository UserRepository { get; private set; }
         public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
         public IOrderDetailRepository OrderDetailRepository { get; private set; }
-        public UnitOfWork(BookSellerDbContext context)
+		public IProductImageRepository ProductImageRepository { get; private set; }
+		public UnitOfWork(BookSellerDbContext context)
         {
             _context = context;
             CategoryRepository = new CategoryRepository(_context);
@@ -28,7 +29,9 @@ namespace Book_Seller_Website.Models.Repository
             UserRepository = new UserRepository(_context);
             OrderDetailRepository = new OrderDetailRepository(_context);
             OrderHeaderRepository = new OrderHeaderRepository(_context);
-        }
+			ProductImageRepository = new ProductImageRepository(_context);
+
+		}
         public void Save()
         {
             _context.SaveChanges();

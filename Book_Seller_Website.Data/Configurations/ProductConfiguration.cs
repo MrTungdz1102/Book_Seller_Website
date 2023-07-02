@@ -24,8 +24,7 @@ namespace Book_Seller_Website.Data.Configurations
                   Price = 90,
                   Price50 = 85,
                   Price100 = 80,
-                  CategoryId = 1,
-                  ProductImages = ""
+                  CategoryId = 1
               },
                 new Product
                 {
@@ -38,8 +37,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 1,
-                    ProductImages = ""
+                    CategoryId = 1
                 },
                 new Product
                 {
@@ -52,8 +50,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    CategoryId = 2,
-                    ProductImages = ""
+                    CategoryId = 2
                 },
                 new Product
                 {
@@ -66,8 +63,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 65,
                     Price50 = 60,
                     Price100 = 55,
-                    CategoryId = 1,
-                    ProductImages = ""
+                    CategoryId = 1
                 },
                 new Product
                 {
@@ -80,8 +76,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 27,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 2,
-                    ProductImages = ""
+                    CategoryId = 2
                 },
                 new Product
                 {
@@ -94,8 +89,7 @@ namespace Book_Seller_Website.Data.Configurations
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    CategoryId = 2,
-                    ProductImages = ""
+                    CategoryId = 2
                 } 
               );
         }
